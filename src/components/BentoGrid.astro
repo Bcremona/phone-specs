@@ -1,0 +1,37 @@
+---
+import smartphones from "../content/smartphones.json"
+---
+
+<div class="grid-container">
+    <div class="grid-item" style="grid-area: box-1;">
+        <p class="p-2 text-white lg:text-3xl md:text-xl sm:text-md font-bold">{smartphones[0].model_name}</p>
+    </div>
+    <div class="relative grid-item" style="grid-area: box-2;">
+        <div class="absolute inset-0 bg-[url('src/images/CameraCloseup.webp')] bg-cover bg-center bg-no-repeat filter blur-xs brightness-50 z-0"></div>
+        <div class="relative z-10 flex flex-col p-4">
+            {smartphones[0].cameras.rear.map((camera) => (
+            <div class="p-2 text-white lg:text-2xl md:text-xl sm:text-md font-semibold flex flex-row">
+                <p class="mr-3.5">{camera.type}: </p>
+                <p>{camera.resolution_mp}<span class="font-light">mp</span></p>
+            </div>
+            ))}
+        </div>
+    </div>
+    <div class="grid-item" style="grid-area: box-3;"></div>
+    <div class="grid-item" style="grid-area: box-4;"></div>
+    <div class="grid-item" style="grid-area: box-5;">
+    </div>
+    <div class="grid-item" style="grid-area: box-6;">
+        <div class="absolute inset-0 bg-[url('src/images/ScreenCloseup.webp')] bg-cover bg-center bg-no-repeat filter blur-xs brightness-50 z-0"></div>
+        <div class="relative z-10 flex flex-col p-4">
+            <h4 class="text-white/95 font-semibold lg:text-3xl md:text-md sm:text-sm">{smartphones[0].screen.size_inches}" {smartphones[0].screen.type}</h5>
+        </div>
+    </div>
+    <div class="grid-item" style="grid-area: box-7;"></div>
+    <div class="grid-item" style="grid-area: box-8;"></div>
+    <div class="grid-item" style="grid-area: box-9;"></div>
+    <div class="grid-item" style="grid-area: box-10;"></div>
+    <div class="grid-item" style="grid-area: box-11;"></div>
+    <div class="grid-item" style="grid-area: box-12;"></div>
+    <div class="grid-item" style="grid-area: box-13;"></div>
+</div>

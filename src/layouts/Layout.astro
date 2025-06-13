@@ -1,0 +1,72 @@
+---
+import "../styles/global.css";
+interface Props {
+	title: string;
+	description: string;
+}
+
+const {description, title} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+
+	@font-face {
+		font-family: 'SF Pro Display';
+		src: url('/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+
+	html, body {
+		font-family: 'SF Pro Display', system-ui, -apple-system, sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+
+	body, html {
+		min-height: 100vh;
+		background: linear-gradient(90deg, #121c33 20%, #0c1424 50%, #291235 80%, #040205 100%);
+		background-size: 150% 150%;
+	}
+
+	.grid-container {
+		padding: 3em;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 10px;
+        height: 100vh;
+		grid-template-areas: 
+		"box-1 box-1 box-2 box-2 box-3 box-3 box-4"
+		"box-5 box-5 box-2 box-2 box-3 box-3 box-4"
+		"box-5 box-5 box-6 box-6 box-6 box-7 box-7"
+		"box-8 box-9 box-6 box-6 box-6 box-10 box-11"
+		"box-8 box-12 box-12 box-13 box-13 box-10 box-11";
+    }
+
+    .grid-item {
+        background-color: #ffffff31;
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+    }
+
+</style>

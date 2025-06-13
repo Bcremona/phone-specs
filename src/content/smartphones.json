@@ -1,0 +1,324 @@
+[
+  {
+    "model_name": "iPhone 15 Pro Max",
+    "brand": "Apple",
+    "price": 1199.00,
+    "battery": {
+      "capacity_mAh": 4422,
+      "type": "Li-Ion",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 48, "type": "wide" },
+        { "resolution_mp": 12, "type": "ultrawide" },
+        { "resolution_mp": 12, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 12, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "Super Retina XDR OLED",
+      "size_inches": 6.7,
+      "resolution": { "width": 2796, "height": 1290 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 8,
+      "internal_gb": 256,
+      "expandable": false
+    },
+    "os": {
+      "name": "iOS",
+      "version": "17"
+    },
+    "release_date": "2023-09-22",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 6e",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 159.9, "width": 76.7, "thickness": 8.3 },
+    "weight_grams": 221,
+    "highlight_features": ["Titanium body", "Dynamic Island", "ProMotion display"]
+  },
+  {
+    "model_name": "Samsung Galaxy S24 Ultra",
+    "brand": "Samsung",
+    "price": 1299.99,
+    "battery": {
+      "capacity_mAh": 5000,
+      "type": "Li-Ion",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 200, "type": "wide" },
+        { "resolution_mp": 12, "type": "ultrawide" },
+        { "resolution_mp": 10, "type": "periscope telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 12, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "Dynamic AMOLED 2X",
+      "size_inches": 6.8,
+      "resolution": { "width": 3088, "height": 1440 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 12,
+      "internal_gb": 512,
+      "expandable": false
+    },
+    "os": {
+      "name": "Android",
+      "version": "14"
+    },
+    "release_date": "2024-01-25",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 7",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 162.3, "width": 79.0, "thickness": 8.6 },
+    "weight_grams": 232,
+    "highlight_features": ["200MP camera", "S Pen support", "Gorilla Glass Armor"]
+  },
+  {
+    "model_name": "Google Pixel 8 Pro",
+    "brand": "Google",
+    "price": 999.00,
+    "battery": {
+      "capacity_mAh": 5050,
+      "type": "Li-Ion",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 50, "type": "wide" },
+        { "resolution_mp": 48, "type": "ultrawide" },
+        { "resolution_mp": 48, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 10.5, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "LTPO OLED",
+      "size_inches": 6.7,
+      "resolution": { "width": 2992, "height": 1344 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 12,
+      "internal_gb": 256,
+      "expandable": false
+    },
+    "os": {
+      "name": "Android",
+      "version": "14"
+    },
+    "release_date": "2023-10-12",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 7",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 162.6, "width": 76.5, "thickness": 8.8 },
+    "weight_grams": 213,
+    "highlight_features": ["AI-powered photo editing", "Face Unlock with IR", "Temperature sensor"]
+  },
+  {
+    "model_name": "Xiaomi 13 Pro",
+    "brand": "Xiaomi",
+    "price": 899.99,
+    "battery": {
+      "capacity_mAh": 4820,
+      "type": "Li-Po",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 50.3, "type": "wide" },
+        { "resolution_mp": 50, "type": "ultrawide" },
+        { "resolution_mp": 50, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 32, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "AMOLED",
+      "size_inches": 6.73,
+      "resolution": { "width": 3200, "height": 1440 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 12,
+      "internal_gb": 256,
+      "expandable": false
+    },
+    "os": {
+      "name": "Android",
+      "version": "13"
+    },
+    "release_date": "2023-03-01",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 6e",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 162.9, "width": 74.6, "thickness": 8.4 },
+    "weight_grams": 229,
+    "highlight_features": ["Leica camera system", "120W fast charging", "Ceramic back"]
+  },
+  {
+    "model_name": "OnePlus 12",
+    "brand": "OnePlus",
+    "price": 799.00,
+    "battery": {
+      "capacity_mAh": 5400,
+      "type": "Li-Po",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 50, "type": "wide" },
+        { "resolution_mp": 48, "type": "ultrawide" },
+        { "resolution_mp": 64, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 32, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "LTPO AMOLED",
+      "size_inches": 6.82,
+      "resolution": { "width": 3168, "height": 1440 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 16,
+      "internal_gb": 512,
+      "expandable": false
+    },
+    "os": {
+      "name": "Android",
+      "version": "14"
+    },
+    "release_date": "2024-01-23",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 7",
+      "bluetooth": "5.4",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 164.3, "width": 75.8, "thickness": 9.2 },
+    "weight_grams": 220,
+    "highlight_features": ["5400mAh battery", "100W wired charging", "Bright 4500 nits display"]
+  },
+  {
+    "model_name": "Sony Xperia 1 V",
+    "brand": "Sony",
+    "price": 1399.00,
+    "battery": {
+      "capacity_mAh": 5000,
+      "type": "Li-Po",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 52, "type": "wide" },
+        { "resolution_mp": 12, "type": "ultrawide" },
+        { "resolution_mp": 12, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 12, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "OLED",
+      "size_inches": 6.5,
+      "resolution": { "width": 3840, "height": 1644 },
+      "refresh_rate_hz": 120
+    },
+    "storage": {
+      "ram_gb": 12,
+      "internal_gb": 256,
+      "expandable": true
+    },
+    "os": {
+      "name": "Android",
+      "version": "13"
+    },
+    "release_date": "2023-07-28",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 6e",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 165, "width": 71, "thickness": 8.3 },
+    "weight_grams": 187,
+    "highlight_features": ["4K OLED screen", "Headphone jack", "Pro-grade manual camera controls"]
+  },
+  {
+    "model_name": "Motorola Edge 40 Pro",
+    "brand": "Motorola",
+    "price": 799.00,
+    "battery": {
+      "capacity_mAh": 4600,
+      "type": "Li-Po",
+      "removable": false
+    },
+    "cameras": {
+      "rear": [
+        { "resolution_mp": 50, "type": "wide" },
+        { "resolution_mp": 50, "type": "ultrawide" },
+        { "resolution_mp": 12, "type": "telephoto" }
+      ],
+      "front": [
+        { "resolution_mp": 60, "type": "wide" }
+      ]
+    },
+    "screen": {
+      "type": "OLED",
+      "size_inches": 6.67,
+      "resolution": { "width": 2400, "height": 1080 },
+      "refresh_rate_hz": 165
+    },
+    "storage": {
+      "ram_gb": 12,
+      "internal_gb": 256,
+      "expandable": false
+    },
+    "os": {
+      "name": "Android",
+      "version": "13"
+    },
+    "release_date": "2023-04-04",
+    "connectivity": {
+      "5g": true,
+      "wifi": "Wi-Fi 6e",
+      "bluetooth": "5.3",
+      "nfc": true,
+      "usb_type": "USB-C"
+    },
+    "dimensions_mm": { "height": 161.2, "width": 74, "thickness": 8.6 },
+    "weight_grams": 199,
+    "highlight_features": ["165Hz refresh rate", "60MP selfie camera", "IP68 water resistance"]
+  }
+]
