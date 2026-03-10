@@ -1,5 +1,6 @@
 ---
 import ImageBlurBox from "./ImageBlurBox.astro";
+import AdBox from "./AdBox.astro";
 
 const { detailedPhone } = Astro.props;
 console.log("detailedPhone in BentoGrid:", detailedPhone);
@@ -227,13 +228,5 @@ console.log("detailedPhone in BentoGrid:", detailedPhone);
             }
         </div>
     </ImageBlurBox>
-    <ImageBlurBox bgImage="" gridArea="box-13">
-        <div class="flex flex-col p-4">
-            <p
-                class="text-white/90 lg:text-4xl md:text-3xl sm:text-lg font-semibold"
-            >
-                Future ad here...
-            </p>
-        </div>
-    </ImageBlurBox>
+    <AdBox gridArea="box-13" className="" />
 </div>
