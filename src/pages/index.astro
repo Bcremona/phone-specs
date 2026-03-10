@@ -74,7 +74,7 @@ const maxPriceGlobal = prices.length ? Math.ceil(Math.max(...prices)) : 9999;
 				<!-- Compare Button -->
 				<div class="flex justify-center">
 					<a
-						href="/compare"
+						href={`${import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL}/compare`}
 						class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
 					>
 						<svg
@@ -246,7 +246,7 @@ const maxPriceGlobal = prices.length ? Math.ceil(Math.max(...prices)) : 9999;
 						const year = phone.release_date?.slice(0, 4) || "";
 						return (
 							<a
-								href={`/${slug}`}
+								href={`${import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL}/${slug}`}
 								class="phone-card group"
 								data-phone-name={phone.model_name.toLowerCase()}
 								data-phone-brand={phone.brand.toLowerCase()}
