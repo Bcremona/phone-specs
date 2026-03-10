@@ -1,10 +1,366 @@
 ---
-import BentoGrid from "../components/BentoGrid.astro"
-import Layout from "../layouts/Layout.astro"
+import Layout from "../layouts/Layout.astro";
+import { getSmartphones } from "../services/phoneService";
+import "../styles/phone-filters.css";
+
+const smartphones = await getSmartphones();
+
+function generateSlug(modelName: string) {
+	return modelName
+		.toLowerCase()
+		.replace(/\s+/g, "-")
+		.replace(/[^a-z0-9-]/g, "")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
+const sorted = smartphones.toSorted((b: any, a: any) =>
+	a.release_date.localeCompare(b.release_date),
+);
+const brands = [...new Set(sorted.map((p: any) => p.brand))].sort();
+const years = [
+	...new Set(
+		sorted.map((p: any) => p.release_date?.slice(0, 4)).filter(Boolean),
+	),
+].sort((a: any, b: any) => b - a);
+const prices = sorted
+	.map((p: any) => Number(p.price))
+	.filter((n: number) => !isNaN(n));
+const minPriceGlobal = prices.length ? Math.floor(Math.min(...prices)) : 0;
+const maxPriceGlobal = prices.length ? Math.ceil(Math.max(...prices)) : 9999;
 ---
 
-<Layout title="SmartSpecs" description="Conecé lo ultimo en tecnología en smartphones.">
-	<main>
-		<BentoGrid />
+<Layout title="SmartSpecs" description="Smartphone specs made simple">
+	<main
+		class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
+	>
+		<div class="container mx-auto px-4 py-8">
+			<!-- Header -->
+			<div class="text-center mb-10">
+				<h1 class="text-5xl md:text-7xl font-bold text-white mb-4">
+					SmartSpecs
+				</h1>
+				<p class="text-xl text-white/80 mb-8">Specs made simple</p>
+
+				<!-- Search Bar -->
+				<div class="max-w-md mx-auto mb-6">
+					<div class="relative">
+						<input
+							type="text"
+							id="searchInput"
+							placeholder="Find a phone..."
+							class="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+						/>
+						<div
+							class="absolute inset-y-0 right-0 flex items-center pr-3"
+						>
+							<svg
+								class="w-5 h-5 text-white/60"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+								></path>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<!-- Compare Button -->
+				<div class="flex justify-center">
+					<a
+						href="/compare"
+						class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+					>
+						<svg
+							class="w-5 h-5"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+							></path>
+						</svg>
+						Compare Phones
+					</a>
+				</div>
+			</div>
+
+			<!-- Filters Panel — price bounds passed via data-attributes -->
+			<div
+				id="filtersPanel"
+				class="max-w-7xl mx-auto mb-8"
+				data-min-price={minPriceGlobal}
+				data-max-price={maxPriceGlobal}
+			>
+				<div
+					class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5"
+				>
+					<div class="flex flex-wrap gap-4 items-end">
+						<!-- Brand filter -->
+						<div class="flex-1 min-w-[150px]">
+							<label
+								class="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2"
+								>Brand</label
+							>
+							<select
+								id="filterBrand"
+								class="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer appearance-none"
+							>
+								<option value="" class="bg-gray-900"
+									>All brands</option
+								>
+								{
+									brands.map((brand: any) => (
+										<option
+											value={brand}
+											class="bg-gray-900"
+										>
+											{brand}
+										</option>
+									))
+								}
+							</select>
+						</div>
+
+						<!-- Year filter -->
+						<div class="flex-1 min-w-[130px]">
+							<label
+								class="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2"
+								>Year</label
+							>
+							<select
+								id="filterYear"
+								class="w-full bg-white/10 border border-white/20 text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer appearance-none"
+							>
+								<option value="" class="bg-gray-900"
+									>All years</option
+								>
+								{
+									years.map((year: any) => (
+										<option
+											value={year}
+											class="bg-gray-900"
+										>
+											{year}
+										</option>
+									))
+								}
+							</select>
+						</div>
+
+						<!-- Price range filter -->
+						<div class="flex-[2] min-w-[220px]">
+							<label
+								class="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2"
+							>
+								Price: <span
+									id="priceLabel"
+									class="text-white font-bold"
+									>${minPriceGlobal} – ${maxPriceGlobal}</span
+								>
+							</label>
+							<div class="flex items-center gap-3">
+								<span class="text-white/50 text-xs"
+									>${minPriceGlobal}</span
+								>
+								<div
+									class="relative flex-1 h-6 flex items-center"
+								>
+									<input
+										type="range"
+										id="priceMin"
+										min={minPriceGlobal}
+										max={maxPriceGlobal}
+										value={minPriceGlobal}
+										class="price-range absolute w-full h-1 appearance-none bg-transparent cursor-pointer"
+									/>
+									<input
+										type="range"
+										id="priceMax"
+										min={minPriceGlobal}
+										max={maxPriceGlobal}
+										value={maxPriceGlobal}
+										class="price-range absolute w-full h-1 appearance-none bg-transparent cursor-pointer"
+									/>
+									<div
+										id="priceTrack"
+										class="w-full h-1 rounded-full bg-white/20 pointer-events-none"
+									>
+										<div
+											id="priceFill"
+											class="h-full rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+										>
+										</div>
+									</div>
+								</div>
+								<span class="text-white/50 text-xs"
+									>${maxPriceGlobal}</span
+								>
+							</div>
+						</div>
+
+						<!-- Clear filters -->
+						<div class="flex-none">
+							<button
+								id="clearFiltersBtn"
+								onclick="clearAllFilters()"
+								class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg border border-white/20 transition-all duration-200 whitespace-nowrap"
+							>
+								✕ Clear filters
+							</button>
+						</div>
+					</div>
+
+					<!-- Active filter badges -->
+					<div
+						id="activeBadges"
+						class="hidden mt-3 flex flex-wrap gap-2"
+					>
+					</div>
+				</div>
+			</div>
+
+			<!-- Results count -->
+			<div class="max-w-7xl mx-auto mb-4">
+				<p id="resultsCount" class="text-white/60 text-sm"></p>
+			</div>
+
+			<!-- Phone Grid -->
+			<div
+				id="phoneGrid"
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto"
+			>
+				{
+					sorted.map((phone: any) => {
+						const slug = generateSlug(phone.model_name);
+						const year = phone.release_date?.slice(0, 4) || "";
+						return (
+							<a
+								href={`/${slug}`}
+								class="phone-card group"
+								data-phone-name={phone.model_name.toLowerCase()}
+								data-phone-brand={phone.brand.toLowerCase()}
+								data-phone-price={phone.price}
+								data-phone-year={year}
+							>
+								<div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 border border-white/20 h-full">
+									<div class="text-center mb-4">
+										<h3 class="text-white/90 text-lg font-semibold">
+											{phone.brand}
+										</h3>
+										<h2 class="text-white text-2xl font-bold mb-2">
+											{phone.model_name}
+										</h2>
+										<p class="text-white/80 text-sm">
+											{phone.screen.size_inches}"{" "}
+											{phone.screen.type}
+										</p>
+									</div>
+
+									<div class="space-y-3">
+										<div class="flex justify-between items-center">
+											<span class="text-white/70 text-sm">
+												Price:
+											</span>
+											<span class="text-white font-semibold">
+												${phone.price}
+											</span>
+										</div>
+										<div class="flex justify-between items-center">
+											<span class="text-white/70 text-sm">
+												Camera:
+											</span>
+											<span class="text-white text-sm">
+												{
+													phone.cameras.rear[0]
+														.resolution_mp
+												}
+												MP
+											</span>
+										</div>
+										<div class="flex justify-between items-center">
+											<span class="text-white/70 text-sm">
+												Storage:
+											</span>
+											<span class="text-white text-sm">
+												{phone.storage.internal_gb}GB
+											</span>
+										</div>
+										<div class="flex justify-between items-center">
+											<span class="text-white/70 text-sm">
+												OS:
+											</span>
+											<span class="text-white text-sm">
+												{phone.os.name}{" "}
+												{phone.os.version}
+											</span>
+										</div>
+									</div>
+
+									<div class="mt-4 pt-4 border-t border-white/20">
+										<div class="flex flex-wrap gap-1">
+											{phone.highlight_features
+												.slice(0, 2)
+												.map((feature: unknown) => (
+													<span class="text-xs bg-white/20 text-white px-2 py-1 rounded-full">
+														{feature}
+													</span>
+												))}
+										</div>
+									</div>
+								</div>
+							</a>
+						);
+					})
+				}
+			</div>
+
+			<!-- No Results Message -->
+			<div id="noResults" class="hidden text-center mt-12">
+				<div class="text-white/60 text-xl">
+					<svg
+						class="w-16 h-16 mx-auto mb-4"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"
+						></path>
+					</svg>
+					<p>No phones match your filters. Try changing them!</p>
+					<button
+						onclick="clearAllFilters()"
+						class="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+					>
+						Clear all filters
+					</button>
+				</div>
+			</div>
+
+			<!-- Pagination -->
+			<div
+				id="paginationBar"
+				class="max-w-7xl mx-auto mt-10 flex justify-center items-center gap-2 flex-wrap"
+			>
+			</div>
+		</div>
 	</main>
 </Layout>
+
+<script>
+	import "../scripts/phoneFilters.js";
+</script>

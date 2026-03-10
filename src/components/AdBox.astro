@@ -1,0 +1,44 @@
+---
+interface Props {
+  gridArea?: string;
+  className?: string;
+}
+const { gridArea, className = "" } = Astro.props;
+---
+
+<div class={`relative grid-item ${className}`} style={gridArea ? `grid-area: ${gridArea};` : undefined}>
+  <div class="flex flex-col p-4 items-center justify-center h-full">
+    <!-- Google AdSense Code -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    
+    <!-- Fallback content if ad doesn't load -->
+    <div class="text-white/60 text-sm text-center mt-2">
+      Advertisement
+    </div>
+  </div>
+</div>
+
+<style>
+  .adsbygoogle {
+    min-height: 100px;
+    width: 100%;
+    max-width: 300px;
+  }
+</style>
+
+<script>
+  // Declare adsbygoogle for TypeScript
+  declare global {
+    interface Window {
+      adsbygoogle: any[];
+    }
+  }
+  
+  // Initialize AdSense
+  (window.adsbygoogle = window.adsbygoogle || []).push({});
+</script> 

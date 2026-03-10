@@ -1,0 +1,410 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getSmartphones } from "../services/phoneService";
+
+const smartphones = await getSmartphones();
+const safePhones = smartphones.map((p) => ({
+    brand: p.brand || "",
+    model_name: p.model_name || "",
+    price: p.price || 0,
+    release_date: p.release_date || "",
+    screen: p.screen || {},
+    cameras: p.cameras || {},
+    storage: p.storage || {},
+    os: p.os || {},
+    highlight_features: p.highlight_features || [],
+}));
+---
+
+<Layout
+    title="Compare Phones | SmartSpecs"
+    description="Compare smartphone specifications side by side"
+>
+    <main
+        class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 py-8"
+    >
+        <div class="container mx-auto px-4 max-w-5xl">
+            <!-- Header -->
+            <div
+                class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4"
+            >
+                <a
+                    href="/"
+                    class="text-white/70 hover:text-white flex items-center gap-2 transition-colors"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Home
+                </a>
+                <h1
+                    class="text-3xl md:text-5xl font-bold text-white text-center flex-1"
+                >
+                    Compare Phones
+                </h1>
+                <div class="w-24 hidden md:block"></div>
+                <!-- Spacer for centering -->
+            </div>
+
+            <!-- Comparison Container -->
+            <div
+                class="flex flex-col md:flex-row gap-4 md:gap-8 mb-10 items-stretch"
+            >
+                <!-- Phone 1 Selection -->
+                <div
+                    class="flex-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 relative z-20 flex flex-col items-center"
+                >
+                    <h2
+                        class="text-white/80 text-sm font-semibold uppercase tracking-wider mb-4 w-full text-center"
+                    >
+                        Phone 1
+                    </h2>
+                    <div class="relative w-full">
+                        <input
+                            type="text"
+                            id="search1"
+                            placeholder="Search first phone..."
+                            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-semibold"
+                            autocomplete="off"
+                        />
+                        <div
+                            id="dropdown1"
+                            class="absolute w-full mt-2 bg-gray-900 border border-white/20 rounded-lg shadow-xl overflow-y-auto max-h-60 hidden z-50 text-left"
+                        >
+                        </div>
+                    </div>
+
+                    <!-- Selected Phone 1 Details -->
+                    <div id="selected1" class="mt-6 hidden w-full">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- VS Badge -->
+                <div
+                    class="flex justify-center items-center md:-mx-4 z-10 py-4 md:py-0"
+                >
+                    <div
+                        class="bg-gradient-to-br from-blue-500/70 to-purple-600/70 text-white font-black text-xl rounded-full w-14 h-14 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] border-4 border-gray-900"
+                    >
+                        VS
+                    </div>
+                </div>
+
+                <!-- Phone 2 Selection -->
+                <div
+                    class="flex-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 relative z-20 flex flex-col items-center"
+                >
+                    <h2
+                        class="text-white/80 text-sm font-semibold uppercase tracking-wider mb-4 w-full text-center"
+                    >
+                        Phone 2
+                    </h2>
+                    <div class="relative w-full">
+                        <input
+                            type="text"
+                            id="search2"
+                            placeholder="Search second phone..."
+                            class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-semibold"
+                            autocomplete="off"
+                        />
+                        <div
+                            id="dropdown2"
+                            class="absolute w-full mt-2 bg-gray-900 border border-white/20 rounded-lg shadow-xl overflow-y-auto max-h-60 hidden z-50 text-left"
+                        >
+                        </div>
+                    </div>
+
+                    <!-- Selected Phone 2 Details -->
+                    <div id="selected2" class="mt-6 hidden w-full">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div
+                id="comparisonTable"
+                class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl overflow-hidden hidden shadow-2xl"
+            >
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ phones: safePhones }}>
+        let phone1 = null;
+        let phone2 = null;
+
+        const search1 = document.getElementById("search1");
+        const dropdown1 = document.getElementById("dropdown1");
+        const selected1 = document.getElementById("selected1");
+
+        const search2 = document.getElementById("search2");
+        const dropdown2 = document.getElementById("dropdown2");
+        const selected2 = document.getElementById("selected2");
+
+        const comparisonTable = document.getElementById("comparisonTable");
+
+        function filterPhones(query) {
+            if (!query) return [];
+            const q = query.toLowerCase();
+            return phones
+                .filter(
+                    (p) =>
+                        (p.model_name || "").toLowerCase().includes(q) ||
+                        (p.brand || "").toLowerCase().includes(q),
+                )
+                .slice(0, 6); // Max 6 results
+        }
+
+        function createDropdownItem(phone, onSelect) {
+            const div = document.createElement("div");
+            div.className =
+                "px-4 py-3 hover:bg-white/10 cursor-pointer border-b border-white/10 last:border-0 transition-colors flex justify-between items-center";
+            div.innerHTML = `
+            <div>
+                <div class="text-white font-bold">${phone.model_name}</div>
+                <div class="text-white/60 text-xs uppercase tracking-wider">${phone.brand}</div>
+            </div>
+            <div class="text-white/80 text-sm">$${phone.price}</div>
+        `;
+            div.addEventListener("click", () => onSelect(phone));
+            return div;
+        }
+
+        function renderDropdown(input, dropdown, onSelect) {
+            input.addEventListener("input", (e) => {
+                const results = filterPhones(e.target.value);
+                dropdown.innerHTML = "";
+
+                if (results.length > 0) {
+                    dropdown.classList.remove("hidden");
+                    results.forEach((p) => {
+                        dropdown.appendChild(
+                            createDropdownItem(p, (selectedPhone) => {
+                                input.value = selectedPhone.model_name;
+                                dropdown.classList.add("hidden");
+                                onSelect(selectedPhone);
+                            }),
+                        );
+                    });
+                } else {
+                    dropdown.classList.add("hidden");
+                }
+            });
+
+            // Focus shows dropdown if there's text
+            input.addEventListener("focus", (e) => {
+                const results = filterPhones(e.target.value);
+                if (results.length > 0) {
+                    dropdown.classList.remove("hidden");
+                }
+            });
+
+            // Hide on outside click
+            document.addEventListener("click", (e) => {
+                if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+        }
+
+        function renderSelectedPhoneCard(phone, container) {
+            container.innerHTML = `
+            <div class="text-center animate-[fadeIn_0.5s_ease-out]">
+                <h3 class="text-white/70 text-sm font-semibold mb-1 uppercase tracking-widest">${phone.brand}</h3>
+                <h2 class="text-white text-2xl font-black mb-4">${phone.model_name}</h2>
+                <div class="inline-block bg-gradient-to-r from-white/10 to-white/5 border border-white/20 text-white px-5 py-2 rounded-full font-bold shadow-lg">
+                    $${phone.price}
+                </div>
+            </div>
+        `;
+            container.classList.remove("hidden");
+        }
+
+        function buildComparisonRow(label, val1, val2, highlightDiff = false) {
+            let color1 = "text-white font-medium";
+            let color2 = "text-white font-medium";
+
+            if (
+                highlightDiff &&
+                val1 !== val2 &&
+                val1 !== "-" &&
+                val2 !== "-"
+            ) {
+                const n1 = parseFloat(String(val1).replace(/[^0-9.]/g, ""));
+                const n2 = parseFloat(String(val2).replace(/[^0-9.]/g, ""));
+
+                if (!isNaN(n1) && !isNaN(n2) && n1 !== n2) {
+                    // Determine which is "better" based on label
+                    const lowerIsBetter = ["price"].includes(
+                        label.toLowerCase(),
+                    );
+
+                    if (
+                        (n1 > n2 && !lowerIsBetter) ||
+                        (n1 < n2 && lowerIsBetter)
+                    ) {
+                        color1 = "text-green-400 font-bold";
+                        color2 = "text-white text-opacity-75";
+                    } else if (
+                        (n1 < n2 && !lowerIsBetter) ||
+                        (n1 > n2 && lowerIsBetter)
+                    ) {
+                        color1 = "text-white text-opacity-75";
+                        color2 = "text-green-400 font-bold";
+                    }
+                }
+            }
+
+            return `
+            <div class="grid grid-cols-[1fr_auto_1fr] border-b border-white/10 hover:bg-white/5 transition-colors group">
+                <div class="p-4 sm:p-5 text-right ${color1} text-sm md:text-base break-words">${val1 || "-"}</div>
+                <div class="p-4 sm:p-5 bg-black/30 text-white/50 text-xs md:text-sm font-bold uppercase tracking-widest text-center min-w-[120px] md:min-w-[160px] flex items-center justify-center group-hover:text-white/70 transition-colors">${label}</div>
+                <div class="p-4 sm:p-5 text-left ${color2} text-sm md:text-base break-words">${val2 || "-"}</div>
+            </div>
+        `;
+        }
+
+        function updateComparison() {
+            if (!phone1 || !phone2) {
+                comparisonTable.classList.add("hidden");
+                return;
+            }
+
+            comparisonTable.classList.remove("hidden");
+            comparisonTable.classList.add("animate-[slideUp_0.5s_ease-out]");
+
+            let html = "";
+
+            // General
+            html += `<div class="bg-black/40 p-4 text-white/80 font-bold text-sm uppercase tracking-widest border-b border-white/10">General</div>`;
+            html += buildComparisonRow(
+                "Price",
+                `$${phone1.price}`,
+                `$${phone2.price}`,
+                true,
+            );
+            html += buildComparisonRow(
+                "Release Date",
+                phone1.release_date || "-",
+                phone2.release_date || "-",
+            );
+            html += buildComparisonRow(
+                "OS",
+                `${phone1.os?.name || ""} ${phone1.os?.version || ""}`,
+                `${phone2.os?.name || ""} ${phone2.os?.version || ""}`,
+            );
+
+            // Display
+            html += `<div class="bg-black/40 p-4 text-white/80 font-bold text-sm uppercase tracking-widest border-b border-white/10">Display</div>`;
+            html += buildComparisonRow(
+                "Size",
+                phone1.screen?.size_inches
+                    ? `${phone1.screen.size_inches}"`
+                    : "-",
+                phone2.screen?.size_inches
+                    ? `${phone2.screen.size_inches}"`
+                    : "-",
+                true,
+            );
+            html += buildComparisonRow(
+                "Type",
+                phone1.screen?.type || "-",
+                phone2.screen?.type || "-",
+            );
+
+            // Cameras
+            html += `<div class="bg-black/40 p-4 text-white/80 font-bold text-sm uppercase tracking-widest border-b border-white/10">Cameras</div>`;
+            const cam1 = phone1.cameras?.rear?.[0]?.resolution_mp
+                ? `${phone1.cameras.rear[0].resolution_mp} MP`
+                : "-";
+            const cam2 = phone2.cameras?.rear?.[0]?.resolution_mp
+                ? `${phone2.cameras.rear[0].resolution_mp} MP`
+                : "-";
+            html += buildComparisonRow("Main Rear", cam1, cam2, true);
+
+            // Storage
+            html += `<div class="bg-black/40 p-4 text-white/80 font-bold text-sm uppercase tracking-widest border-b border-white/10">Storage</div>`;
+            html += buildComparisonRow(
+                "Internal",
+                phone1.storage?.internal_gb
+                    ? `${phone1.storage.internal_gb} GB`
+                    : "-",
+                phone2.storage?.internal_gb
+                    ? `${phone2.storage.internal_gb} GB`
+                    : "-",
+                true,
+            );
+
+            // Features
+            const feats1 = phone1.highlight_features
+                ? phone1.highlight_features.join(", ")
+                : "-";
+            const feats2 = phone2.highlight_features
+                ? phone2.highlight_features.join(", ")
+                : "-";
+            if (feats1 !== "-" || feats2 !== "-") {
+                html += `<div class="bg-black/40 p-4 text-white/80 font-bold text-sm uppercase tracking-widest border-b border-white/10">Features</div>`;
+                html += buildComparisonRow("Highlights", feats1, feats2);
+            }
+
+            comparisonTable.innerHTML = html;
+
+            // Remove animation class after it plays so it can play again if re-triggered (optional)
+            setTimeout(
+                () =>
+                    comparisonTable.classList.remove(
+                        "animate-[slideUp_0.5s_ease-out]",
+                    ),
+                500,
+            );
+        }
+
+        renderDropdown(search1, dropdown1, (selected) => {
+            phone1 = selected;
+            renderSelectedPhoneCard(phone1, selected1);
+            updateComparison();
+        });
+
+        renderDropdown(search2, dropdown2, (selected) => {
+            phone2 = selected;
+            renderSelectedPhoneCard(phone2, selected2);
+            updateComparison();
+        });
+    </script>
+</Layout>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

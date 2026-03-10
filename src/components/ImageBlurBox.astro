@@ -1,0 +1,14 @@
+---
+interface Props {
+  bgImage: string;
+  className?: string;
+  gridArea?: string;
+}
+const { bgImage, className = "", gridArea } = Astro.props;
+---
+<div class={`relative grid-item ${className}`} style={gridArea ? `grid-area: ${gridArea};` : undefined}>
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat filter blur-xs brightness-50 z-0" style={`background-image: url('${bgImage}');`}></div>
+  <div class="relative z-10 flex flex-col p-4">
+    <slot />
+  </div>
+</div> 

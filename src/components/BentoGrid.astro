@@ -1,37 +1,103 @@
 ---
-import smartphones from "../content/smartphones.json"
+import ImageBlurBox from "./ImageBlurBox.astro"
+
+const { detailedPhone } = Astro.props;
+console.log("detailedPhone in BentoGrid:", detailedPhone);
 ---
 
 <div class="grid-container">
-    <div class="grid-item" style="grid-area: box-1;">
-        <p class="p-2 text-white lg:text-3xl md:text-xl sm:text-md font-bold">{smartphones[0].model_name}</p>
-    </div>
-    <div class="relative grid-item" style="grid-area: box-2;">
-        <div class="absolute inset-0 bg-[url('src/images/CameraCloseup.webp')] bg-cover bg-center bg-no-repeat filter blur-xs brightness-50 z-0"></div>
-        <div class="relative z-10 flex flex-col p-4">
-            {smartphones[0].cameras.rear.map((camera) => (
-            <div class="p-2 text-white lg:text-2xl md:text-xl sm:text-md font-semibold flex flex-row">
+    <ImageBlurBox bgImage="" gridArea="box-1">
+        <div class="flex flex-col p-4 items-center justify-center">
+            <h3 class="text-white/90 lg:text-2xl md:text-xl sm:text-sm font-semibold">{detailedPhone.brand}</h3>
+            <h1 class="text-white lg:text-3xl md:text-xl sm:text-lg font-bold">{detailedPhone.model_name}</h1>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/CameraCloseup.webp" gridArea="box-2">
+        {detailedPhone.cameras.rear.map((camera: any) => (
+            <div class="p-2 text-white lg:text-2xl md:text-xl sm:text-sm font-semibold flex flex-row">
                 <p class="mr-3.5">{camera.type}: </p>
                 <p>{camera.resolution_mp}<span class="font-light">mp</span></p>
             </div>
+        ))}
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/battery.webp" gridArea="box-3">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Battery</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">{detailedPhone.battery.capacity_mAh}mAh</p>
+            <p class="text-white/80 lg:text-lg md:text-md sm:text-xs">{detailedPhone.battery.type}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/dimensions.webp" gridArea="box-4">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Dimensions</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">H: {detailedPhone.dimensions_mm.height}mm</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">W: {detailedPhone.dimensions_mm.width}mm</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">T: {detailedPhone.dimensions_mm.thickness}mm</p>
+            <p class="text-white/80 lg:text-lg md:text-md sm:text-xs">{detailedPhone.weight_grams}g</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/storage.webp" gridArea="box-5">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Storage</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">RAM: {detailedPhone.storage.ram_gb}GB</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">Internal: {detailedPhone.storage.internal_gb}GB</p>
+            <p class="text-white/80 lg:text-lg md:text-md sm:text-xs">Expandable: {detailedPhone.storage.expandable ? 'Yes' : 'No'}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/ScreenCloseup.webp" gridArea="box-6">
+        <h4 class="text-white/95 font-semibold lg:text-3xl md:text-md sm:text-sm pb-2">{detailedPhone.screen.size_inches}" {detailedPhone.screen.type}</h4>
+        <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">Resolution: {detailedPhone.screen.resolution.width}x{detailedPhone.screen.resolution.height}</p>
+        <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">Refresh Rate: {detailedPhone.screen.refresh_rate_hz}Hz</p>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/price.webp" gridArea="box-7">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Price</p>
+            <p class="text-white/90 lg:text-2xl md:text-xl sm:text-lg">${detailedPhone.price}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/os.webp" gridArea="box-8">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">OS</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">{detailedPhone.os.name}</p>
+            <p class="text-white/80 lg:text-lg md:text-md sm:text-xs">v{detailedPhone.os.version}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/date.webp" gridArea="box-9">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Release</p>
+            <p class="text-white/90 lg:text-xl md:text-lg sm:text-xs">{detailedPhone.release_date}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/connectivity.webp" gridArea="box-10">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Connectivity</p>
+            <p class="text-white/90 lg:text-lg md:text-md sm:text-xs">5G: {detailedPhone.connectivity["5g"] ? 'Yes' : 'No'}</p>
+            <p class="text-white/90 lg:text-lg md:text-md sm:text-xs">WiFi: {detailedPhone.connectivity.wifi}</p>
+            <p class="text-white/90 lg:text-lg md:text-md sm:text-xs">BT: {detailedPhone.connectivity.bluetooth}</p>
+            <p class="text-white/90 lg:text-lg md:text-md sm:text-xs">USB: {detailedPhone.connectivity.usb_type}</p>
+        </div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/front-cam.webp" gridArea="box-11">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Front Camera</p>
+            {detailedPhone.cameras.front.map((camera: any) => (
+            <div class="text-white/90 lg:text-xl md:text-lg sm:text-xs">
+                <p>{camera.resolution_mp}MP {camera.type}</p>
+            </div>
             ))}
         </div>
-    </div>
-    <div class="grid-item" style="grid-area: box-3;"></div>
-    <div class="grid-item" style="grid-area: box-4;"></div>
-    <div class="grid-item" style="grid-area: box-5;">
-    </div>
-    <div class="grid-item" style="grid-area: box-6;">
-        <div class="absolute inset-0 bg-[url('src/images/ScreenCloseup.webp')] bg-cover bg-center bg-no-repeat filter blur-xs brightness-50 z-0"></div>
-        <div class="relative z-10 flex flex-col p-4">
-            <h4 class="text-white/95 font-semibold lg:text-3xl md:text-md sm:text-sm">{smartphones[0].screen.size_inches}" {smartphones[0].screen.type}</h5>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="src/images/features.webp" gridArea="box-12">
+        <div class="flex flex-col p-4">
+            <p class="text-white lg:text-2xl md:text-xl sm:text-sm font-semibold">Highlights</p>
+            {detailedPhone.highlight_features.map((feature: any) => (
+            <p class="text-white/90 lg:text-lg md:text-md sm:text-xs">• {feature}</p>
+            ))}
         </div>
-    </div>
-    <div class="grid-item" style="grid-area: box-7;"></div>
-    <div class="grid-item" style="grid-area: box-8;"></div>
-    <div class="grid-item" style="grid-area: box-9;"></div>
-    <div class="grid-item" style="grid-area: box-10;"></div>
-    <div class="grid-item" style="grid-area: box-11;"></div>
-    <div class="grid-item" style="grid-area: box-12;"></div>
-    <div class="grid-item" style="grid-area: box-13;"></div>
+    </ImageBlurBox>
+    <ImageBlurBox bgImage="" gridArea="box-13">
+        <div class="flex flex-col p-4">
+            <p class="text-white/90 lg:text-4xl md:text-3xl sm:text-lg font-semibold">Future ad here...</p>
+        </div>
+    </ImageBlurBox>
 </div>

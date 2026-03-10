@@ -17,6 +17,11 @@ const {description, title} = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		
+		<!-- Google AdSense -->
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+		     crossorigin="anonymous">
+		</script>
 	</head>
 	<body>
 		<slot />
@@ -46,18 +51,66 @@ const {description, title} = Astro.props;
 	}
 
 	.grid-container {
-		padding: 3em;
+		padding: 0.5em;
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-        gap: 10px;
+        gap: 8px;
         height: 100vh;
-		grid-template-areas: 
-		"box-1 box-1 box-2 box-2 box-3 box-3 box-4"
-		"box-5 box-5 box-2 box-2 box-3 box-3 box-4"
-		"box-5 box-5 box-6 box-6 box-6 box-7 box-7"
-		"box-8 box-9 box-6 box-6 box-6 box-10 box-11"
-		"box-8 box-12 box-12 box-13 box-13 box-10 box-11";
+        min-height: 100vh;
+	}
+
+    /* Mobile Layout (default) */
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(13, 1fr);
+        grid-template-areas: 
+        "box-1"
+        "box-2"
+        "box-3"
+        "box-4"
+		"box-13"
+        "box-5"
+        "box-6"
+        "box-7"
+        "box-8"
+        "box-9"
+        "box-10"
+        "box-11"
+        "box-12";
+    }
+
+    /* Tablet Layout */
+    @media (min-width: 768px) {
+        .grid-container {
+            padding: 2em;
+            gap: 12px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            grid-template-areas: 
+            "box-1 box-1 box-2 box-2"
+            "box-1 box-1 box-2 box-2"
+            "box-3 box-4 box-5 box-6"
+            "box-3 box-4 box-5 box-6"
+            "box-7 box-8 box-9 box-10"
+            "box-7 box-8 box-9 box-10"
+            "box-11 box-11 box-12 box-13"
+            "box-11 box-11 box-12 box-13";
+        }
+    }
+
+    /* Desktop Layout */
+    @media (min-width: 1024px) {
+        .grid-container {
+            padding: 3em;
+            gap: 10px;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            grid-template-areas: 
+            "box-1 box-1 box-2 box-2 box-13 box-13 box-4"
+            "box-5 box-5 box-2 box-2 box-13 box-13 box-4"
+            "box-5 box-5 box-6 box-6 box-6 box-7 box-7"
+            "box-8 box-9 box-6 box-6 box-6 box-10 box-11"
+            "box-8 box-12 box-12 box-3 box-3 box-10 box-11";
+        }
     }
 
     .grid-item {
@@ -67,6 +120,21 @@ const {description, title} = Astro.props;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+        min-height: 120px;
+    }
+
+    /* Responsive text adjustments */
+    @media (max-width: 767px) {
+        .grid-item {
+            min-height: 130px;
+            padding: 0.5em;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .grid-item {
+            min-height: 130px;
+        }
     }
 
 </style>

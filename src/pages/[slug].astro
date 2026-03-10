@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BentoGrid from "../components/BentoGrid.astro";
+import { getSmartphones, getSmartphoneBySlug } from "../services/phoneService";
+
+export async function getStaticPaths() {
+  const smartphones = await getSmartphones();
+
+  return smartphones.map((phone) => {
+    const slug = phone.model_name
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Mejor usar guiones
+      .replace(/[^a-z0-9-]/g, ""); // Mantener guiones
+
+    return {
+      params: { slug },
+      props: { phone },
+    };
+  });
+}
+
+const { phone } = Astro.props;
+
+const detailedPhone = await getSmartphoneBySlug(phone.model_name);
+---
+
+<Layout
+  title={`${phone.model_name} - SmartSpecs`}
+  description={`Especificaciones detalladas del ${phone.model_name}`}
+>
+  <main
+    class="min-h-screen p-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
+  >
+    <div class="w-full flex md:flex-row flex-col mr-0 px-1 py-1">
+      <a
+        href="/"
+        class="inline-block h-[2.5em] mt-12 ml-3 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+      >
+        ←
+      </a>
+      <BentoGrid detailedPhone={detailedPhone} />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem;
+    height: 80vh;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .grid-container > *:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 3;
+  }
+  .grid-container > *:nth-child(2) {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+  .grid-container > *:nth-child(3) {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  .grid-container > *:nth-child(4) {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .grid-container > *:nth-child(5) {
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  .grid-container > *:nth-child(6) {
+    grid-area: 2 / 3 / 3 / 5;
+  }
+  .grid-container > *:nth-child(7) {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+  .grid-container > *:nth-child(8) {
+    grid-area: 3 / 2 / 4 / 3;
+  }
+  .grid-container > *:nth-child(9) {
+    grid-area: 3 / 3 / 4 / 4;
+  }
+  .grid-container > *:nth-child(10) {
+    grid-area: 3 / 4 / 4 / 5;
+  }
+  .grid-container > *:nth-child(11) {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .grid-container > *:nth-child(12) {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(12, 1fr);
+      height: auto;
+      gap: 0.5rem;
+    }
+
+    .grid-container > * {
+      grid-area: auto !important;
+    }
+  }
+</style>
