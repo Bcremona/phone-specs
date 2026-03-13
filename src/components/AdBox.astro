@@ -4,22 +4,27 @@ interface Props {
   className?: string;
 }
 const { gridArea, className = "" } = Astro.props;
+
+const AD_CLIENT = process.env.AD_CLIENT;
+const AD_SLOT = process.env.AD_SLOT;
 ---
 
-<div class={`relative grid-item ${className}`} style={gridArea ? `grid-area: ${gridArea};` : undefined}>
+<div
+  class={`relative grid-item ${className}`}
+  style={gridArea ? `grid-area: ${gridArea};` : undefined}
+>
   <div class="flex flex-col p-4 items-center justify-center h-full">
     <!-- Google AdSense Code -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-         data-ad-slot="XXXXXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client=`ca-pub-${AD_CLIENT}`
+      data-ad-slot=`${AD_SLOT}`
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+
     <!-- Fallback content if ad doesn't load -->
-    <div class="text-white/60 text-sm text-center mt-2">
-      Advertisement
-    </div>
+    <div class="text-white/60 text-sm text-center mt-2">Advertisement</div>
   </div>
 </div>
 
@@ -38,7 +43,7 @@ const { gridArea, className = "" } = Astro.props;
       adsbygoogle: any[];
     }
   }
-  
+
   // Initialize AdSense
   (window.adsbygoogle = window.adsbygoogle || []).push({});
-</script> 
+</script>
