@@ -5,8 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://bautistacremona.github.io',
-  base: '/phone-specs',
+  site: 'https://smarterspecs.com',
+  base: '/',
   vite: {
     plugins: [tailwindcss()]
   }
