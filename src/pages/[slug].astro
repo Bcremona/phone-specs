@@ -22,6 +22,8 @@ export async function getStaticPaths() {
 const { phone } = Astro.props;
 
 const detailedPhone = await getSmartphoneBySlug(phone.model_name);
+import { generatePhoneDescription } from "../scripts/generateDescription.js";
+const description = generatePhoneDescription(detailedPhone);
 ---
 
 <Layout
@@ -29,21 +31,27 @@ const detailedPhone = await getSmartphoneBySlug(phone.model_name);
   description={`Especificaciones detalladas del ${phone.model_name}`}
 >
   <main
-    class="min-h-screen p-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
+    class="flex flex-col min-h-screen p-0 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900"
   >
     <div class="w-full flex md:flex-row flex-col mr-0 px-1 py-1">
       <a
         href={import.meta.env.BASE_URL || "/"}
-        class="inline-block h-[2.5em] mt-12 ml-3 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+        class="inline-block h-[2.5em] mt-12 ml-3 px-6 py-2 bg-white/10 hover:bg-white/20
+      text-white rounded-lg transition-colors"
       >
         ←
       </a>
-      <BentoGrid detailedPhone={detailedPhone} />
+    </div>
+    <BentoGrid detailedPhone={detailedPhone} />
+    <div
+      class="text-white/80 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mx-2 md:mx-6 mb-2"
+    >
+      <p>{description}</p>
     </div>
   </main>
 </Layout>
 
-<style>
+<style is:global>
   .grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -93,14 +101,15 @@ const detailedPhone = await getSmartphoneBySlug(phone.model_name);
 
   @media (max-width: 768px) {
     .grid-container {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(12, 1fr);
+      display: flex;
+      flex-direction: column;
       height: auto;
       gap: 0.5rem;
     }
 
     .grid-container > * {
       grid-area: auto !important;
+      min-height: 120px;
     }
   }
 </style>

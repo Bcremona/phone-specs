@@ -85,7 +85,6 @@ export async function getSmartphoneBySlug(slug) {
 
     if (smartphone) {
       console.log("Smartphone encontrado por Slug:", smartphone.model_name);
-      console.log(smartphone);
       return smartphone;
     } else {
       console.log("No se encontró ningún smartphone con el slug: " + slug);
