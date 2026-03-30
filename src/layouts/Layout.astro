@@ -3,9 +3,10 @@ import "../styles/global.css";
 interface Props {
     title: string;
     description: string;
+    showAds?: boolean;
 }
 
-const { description, title } = Astro.props;
+const { description, title, showAds = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,10 +19,13 @@ const { description, title } = Astro.props;
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
 
-        <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8176791495133973"
-            crossorigin="anonymous"></script>
+        {showAds && (
+            <script
+                async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8176791495133973"
+                crossorigin="anonymous"
+            ></script>
+        )}
     </head>
     <body>
         <slot />
