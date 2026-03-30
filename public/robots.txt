@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smarterspecs.com/sitemap-index.xml
